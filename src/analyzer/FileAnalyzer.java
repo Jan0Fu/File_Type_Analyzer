@@ -1,5 +1,6 @@
 package analyzer;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ class FileAnalyzer {
         }
     }
 
-    public void searchFile(String file, String pattern, String fileType) {
+    public String searchFile(File file, String pattern, String fileType) {
         boolean isFound = false;
         long startTime = System.nanoTime();
 
@@ -34,7 +35,6 @@ class FileAnalyzer {
             e.printStackTrace();
         }
         double elapsedTime = (System.nanoTime() - startTime) / 1_000_000_000.0;
-        System.out.println(isFound ? fileType : "Unknown file type");
-        System.out.printf("It took  %.3f seconds", elapsedTime);
+        return isFound ? (file.getName() + ": " + fileType) : (file.getName() + ": Unknown file type");
     }
 }
