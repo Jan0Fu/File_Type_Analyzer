@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 class FileAnalyzer {
 
@@ -17,8 +18,10 @@ class FileAnalyzer {
         }
     }
 
-    public String searchFile(File file, String pattern, String fileType) {
+    public String searchFile(File file, String patternPath) throws IOException {
         boolean isFound = false;
+        String fileType = "";
+        List<Pattern> patterns = PatternFile.getPatterns(patternPath);
         long startTime = System.nanoTime();
 
         try (InputStream inputStream = new FileInputStream(file)) {
@@ -26,10 +29,12 @@ class FileAnalyzer {
             byte[] buffer = new byte[BUFFER_SIZE];
             int bytesRead = -1;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-                if (algorithm.patternSearch(new String(buffer), pattern)) {
-                    isFound = true;
-                    break;
-                }
+                for (var p: patterns)
+                    if (algorithm.patternSearch(new String(buffer), p.getPattern())) {
+                        isFound = true;
+                        fileType = p.getFileType();
+                        break;
+                    }
             }
         } catch (IOException e) {
             e.printStackTrace();

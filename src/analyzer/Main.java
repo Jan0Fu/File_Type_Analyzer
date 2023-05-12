@@ -9,16 +9,15 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        if (args.length < 3) {
+        if (args.length < 2) {
             System.out.println("Please provide all arguments");
             System.exit(0);
         }
 
         String algorithm = "--KMP";
+        String patternPath = args[1];
         File folder = new File(args[0]);
         File[] files = folder.listFiles();
-        String pattern = args[1];
-        String fileType = args[2];
 
         FileAnalyzer analyzer = new FileAnalyzer(algorithm);
         List<Callable<String>> callables = new ArrayList<>();
@@ -26,7 +25,7 @@ public class Main {
 
         if (files != null) {
             for (File file: files) {
-                callables.add(() -> analyzer.searchFile(file, pattern, fileType));
+                callables.add(() -> analyzer.searchFile(file, patternPath));
             }
 
             List<Future<String>> results = executor.invokeAll(callables);
