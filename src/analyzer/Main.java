@@ -14,7 +14,7 @@ public class Main {
             System.exit(0);
         }
 
-        String algorithm = "--KMP";
+        String algorithm = "--rabin";
         String patternPath = args[1];
         File folder = new File(args[0]);
         File[] files = folder.listFiles();

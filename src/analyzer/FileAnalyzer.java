@@ -13,7 +13,8 @@ class FileAnalyzer {
     public FileAnalyzer(String algorithm) {
         switch (algorithm) {
             case "--naive" -> this.algorithm = new NaiveAlgorithm();
-            case "--KMP" -> this.algorithm = new KMPalgorithm();
+            case "--kmp" -> this.algorithm = new KMPalgorithm();
+            case "--rabin" ->this.algorithm = new RabinKarpAlgorithm();
             default -> this.algorithm = new KMPalgorithm();
         }
     }
